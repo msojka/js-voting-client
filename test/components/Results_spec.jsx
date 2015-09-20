@@ -3,7 +3,7 @@ import {List, Map} from 'immutable';
 import Results from '../../src/components/Results';
 import {expect} from 'chai';
 
-const {renderIntoDocument, scryRenderedDOMComponentsWithClass} = React.addons.TestUtils;
+const {renderIntoDocument, scryRenderedDOMComponentsWithClass, Simulate} = React.addons.TestUtils;
 
 describe('Results', () => {
 
@@ -21,6 +21,21 @@ describe('Results', () => {
     expect(train).to.contain('5');
     expect(days).to.contain('28 Days Later');
     expect(days).to.contain('0');
+  });
+
+  it('invokes the next callback when next button is clicked', () => {
+    let nextInvoked = false;
+    let next = () => nextInvoked = true;
+
+    const pair = List.of('Trainspotting', '28 Days Later');
+    const component = renderIntoDocument(
+      <Results pair={pair}
+                tally={Map()}
+                next={next} />
+    );
+    Simulate.click(React.findDOMNode(component.refs.next));
+
+    expect(nextInvoked).to.equal(true);
   });
 
 });
