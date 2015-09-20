@@ -1,6 +1,7 @@
 import React from 'react';
 import Router, {Route, DefaultRoute} from 'react-router';
 import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 import reducer from './reducer'
 import App from './components/App';
 import Voting from './components/Voting';
@@ -24,7 +25,9 @@ const routes = <Route handler={App}>
 
 Router.run(routes, (Root) => {
   React.render(
-    <Root />,
+    <Provider store={store}>
+      {() => <Root />}
+    </Provider>,
     document.getElementById('app')
   );
 });
